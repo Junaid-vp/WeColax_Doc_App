@@ -5,6 +5,7 @@ import { ShieldCheck, FileText, Lock } from 'lucide-react';
 import { CopyButton } from './CopyButton';
 import { AddDocForm } from './AddDocForm';
 import { DeleteDocButton } from './DeleteDocButton';
+import { RevealContent } from './RevealContent';
 
 
 export const dynamic = 'force-dynamic';
@@ -52,9 +53,7 @@ export default async function DocsVaultPage() {
                </div>
              </div>
              
-             <pre className="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200 text-xs sm:text-sm font-mono text-slate-700 overflow-x-auto shadow-inner whitespace-pre-wrap break-all">
-               <code>{doc.content}</code>
-             </pre>
+             <RevealContent content={doc.content} />
           </div>
         ))}
 
