@@ -85,23 +85,13 @@ export default async function DashboardPage() {
         
         {/* Team Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
-          {/* CTO */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-md transition-shadow shadow-sm">
-            <h4 className="text-xl font-bold text-slate-900">Mohammed Junaid</h4>
-            <p className="text-slate-500 text-sm mb-1">Co-Founder & CTO</p>
-            <p className="text-purple-600 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase mb-4 mt-2">Technology • Product • Innovation</p>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Leading the technical vision, building robust architectures, and driving product innovation to power the WeColax platform.
-            </p>
-          </div>
-          
           {/* CEO */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-md transition-shadow shadow-sm">
             <h4 className="text-xl font-bold text-slate-900">Fuad Zaneen</h4>
             <p className="text-slate-500 text-sm mb-1">Founder & CEO</p>
             <p className="text-blue-600 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase mb-4 mt-2">Vision • Strategy • Growth</p>
             <p className="text-slate-600 text-sm leading-relaxed">
-              Steering the company's overarching vision, securing strategic partnerships, and accelerating global market growth.
+              Steering the company&apos;s overarching vision, securing strategic partnerships, and accelerating global market growth.
             </p>
           </div>
 
@@ -114,12 +104,22 @@ export default async function DashboardPage() {
               Ensuring flawless day-to-day operations, scaling the internal team, and executing business strategies with precision.
             </p>
           </div>
+
+          {/* CTO */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-md transition-shadow shadow-sm">
+            <h4 className="text-xl font-bold text-slate-900">Mohammed Junaid</h4>
+            <p className="text-slate-500 text-sm mb-1">Co-Founder & CTO</p>
+            <p className="text-purple-600 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase mb-4 mt-2">Technology • Product • Innovation</p>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Leading the technical vision, building robust architectures, and driving product innovation to power the WeColax platform.
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-col items-center">
           <div className="relative w-full max-w-4xl rounded-2xl overflow-hidden shadow-xl border border-slate-200">
             <img 
-              src="/7BE4D49F-FC80-4DA9-A5E6-7B19D98404B7.PNG" 
+              src="/wecolax-family.png" 
               alt="We are Wecolax family" 
               className="w-full h-auto block"
             />

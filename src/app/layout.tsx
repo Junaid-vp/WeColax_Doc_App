@@ -23,9 +23,20 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "WeColax Executive Vault",
   description: "Secure internal vault and configuration manager for WeColax.",
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.json",
   icons: {
-    icon: '/icon.png',
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Vault",
+    statusBarStyle: "default",
+  },
+  other: {
+    "apple-mobile-web-app-title": "Vault",
+    "application-name": "Vault",
   },
   robots: {
     index: false,
