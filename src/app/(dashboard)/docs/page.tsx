@@ -5,6 +5,7 @@ import { ShieldCheck, FileText, Lock } from 'lucide-react';
 import { CopyButton } from './CopyButton';
 import { AddDocForm } from './AddDocForm';
 import { DeleteDocButton } from './DeleteDocButton';
+import { EditDocButton } from './EditDocButton';
 import { RevealContent } from './RevealContent';
 
 
@@ -48,6 +49,7 @@ export default async function DocsVaultPage() {
                  <span className="truncate">{doc.title}</span>
                </h2>
                <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                 <EditDocButton docId={doc.id} currentContent={doc.content} />
                  <CopyButton content={doc.content} />
                  <DeleteDocButton docId={doc.id} />
                </div>

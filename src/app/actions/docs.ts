@@ -101,3 +101,36 @@ export async function deleteDocAction(id: string) {
   }
 }
 
+export async function updateDocAction(id: string, newContent: string) {
+  const session = await getSession();
+  if (!session) return { success: false, error: 'Unauthorized' };
+
+  try {
+    const doc = await prisma.projectDoc.findUnique({ where: { id } });
+    if (!doc) return { success: false, error: 'Document not found' };
+
+    const { encryptedContent, iv } = encryptData(newContent);
+
+    await prisma.projectDoc.update({
+      where: { id },
+      data: {
+        encryptedContent,
+        iv,
+        updatedBy: session.user.role
+      }
+    });
+
+    await prisma.auditLog.create({
+      data: {
+        action: 'UPDATED_SECURE_DOC',
+        userId: session.userId,
+        details: `Updated encrypted document: ${doc.title}`,
+      }
+    });
+
+    revalidatePath('/docs');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to update document' };
+  }
+}

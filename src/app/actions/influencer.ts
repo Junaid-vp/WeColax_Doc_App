@@ -38,3 +38,28 @@ export async function addInfluencerAction(formData: FormData) {
   revalidatePath('/influencers');
   return { success: true };
 }
+
+export async function deleteInfluencerAction(id: string) {
+  const session = await getSession();
+  if (!session) return { success: false, error: 'Unauthorized' };
+
+  try {
+    const influencer = await prisma.influencer.findUnique({ where: { id } });
+    if (!influencer) return { success: false, error: 'Influencer not found' };
+
+    await prisma.influencer.delete({ where: { id } });
+
+    await prisma.auditLog.create({
+      data: {
+        action: 'DELETED_INFLUENCER',
+        userId: session.userId,
+        details: `Deleted influencer: ${influencer.name}`,
+      }
+    });
+
+    revalidatePath('/influencers');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to delete influencer' };
+  }
+}
