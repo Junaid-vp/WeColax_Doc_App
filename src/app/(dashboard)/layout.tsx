@@ -10,7 +10,7 @@ export default async function DashboardLayout({
   const session = await getSession();
   
   if (!session) {
-    redirect('/login');
+    redirect('/api/auth/force-logout');
   }
 
   return (
