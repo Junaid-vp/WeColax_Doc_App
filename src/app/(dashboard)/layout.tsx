@@ -19,7 +19,7 @@ export default async function DashboardLayout({
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-purple-300/30 blur-[120px] rounded-full pointer-events-none" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
       
-      <main className="relative z-10 max-w-7xl mx-auto p-6 md:px-12 md:py-6">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-4 sm:p-6 md:px-12 md:py-6">
         {children}
       </main>
       

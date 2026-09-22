@@ -36,13 +36,13 @@ export default async function SettingsPage() {
   const hasPasskeys = (user?.authenticators?.length ?? 0) > 0;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
-      <header className="pb-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-700">
+      <header className="pb-4 sm:pb-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold flex items-center gap-3 text-slate-900">
-            <SettingsIcon className="w-8 h-8 text-slate-500" /> Settings
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 sm:gap-3 text-slate-900">
+            <SettingsIcon className="w-6 h-6 sm:w-8 sm:h-8 text-slate-500 shrink-0" /> Settings
           </h1>
-          <p className="text-slate-500 mt-2">Manage your account preferences and security for <strong className="text-slate-700">{currentSession.user.role}</strong>.</p>
+          <p className="text-sm sm:text-base text-slate-500 mt-2">Manage your account preferences and security for <strong className="text-slate-700">{currentSession.user.role}</strong>.</p>
         </div>
         <InstallAppButton />
       </header>

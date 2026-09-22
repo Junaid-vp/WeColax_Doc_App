@@ -13,13 +13,13 @@ export default async function InfluencersPage() {
   });
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
-      <header className="pb-6 border-b border-slate-200 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+    <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-700">
+      <header className="pb-4 sm:pb-6 border-b border-slate-200 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold flex items-center gap-3 text-slate-900">
-            <Users className="w-8 h-8 text-pink-600" /> Influencer Tracking
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 sm:gap-3 text-slate-900">
+            <Users className="w-6 h-6 sm:w-8 sm:h-8 text-pink-600 shrink-0" /> Influencer Tracking
           </h1>
-          <p className="text-slate-500 mt-2">Track promotion campaigns, details, and video links.</p>
+          <p className="text-sm sm:text-base text-slate-500 mt-2">Track promotion campaigns, details, and video links.</p>
         </div>
         <AddInfluencerForm />
       </header>
