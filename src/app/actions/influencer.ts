@@ -1,10 +1,10 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { getSession } from '@/lib/auth';
 
-const prisma = new PrismaClient();
+
 
 export async function addInfluencerAction(formData: FormData) {
   const session = await getSession();

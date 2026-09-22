@@ -1,11 +1,11 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { Resend } from 'resend';
 import { createSession } from '@/lib/auth';
 
-const prisma = new PrismaClient();
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function verifyPasswordAction(email: string, password: string) {

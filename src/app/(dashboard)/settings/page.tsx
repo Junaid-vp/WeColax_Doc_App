@@ -1,12 +1,12 @@
 import { Settings as SettingsIcon, KeyRound, MonitorSmartphone, Clock, ShieldCheck, Globe, Fingerprint, ScanFace } from 'lucide-react';
 import { getSession } from '@/lib/auth';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { RevokeSessionButton } from '../RevokeSessionButton';
 import { formatDistanceToNow } from 'date-fns';
 import { BiometricSetupButton } from './BiometricSetupButton';
 import { InstallAppButton } from './InstallAppButton';
 
-const prisma = new PrismaClient();
+
 
 export default async function SettingsPage() {
   const currentSession = await getSession();

@@ -1,9 +1,9 @@
 import { Users, Link as LinkIcon, Calendar } from 'lucide-react';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { AddInfluencerForm } from './AddInfluencerForm';
 import { formatDistanceToNow } from 'date-fns';
 
-const prisma = new PrismaClient();
+
 
 export const dynamic = 'force-dynamic';
 

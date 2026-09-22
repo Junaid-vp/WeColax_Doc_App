@@ -1,9 +1,7 @@
 import 'server-only';
 import { cookies, headers } from 'next/headers';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
-
-const prisma = new PrismaClient();
 
 export async function createSession(userId: string) {
   const sessionToken = crypto.randomBytes(32).toString('hex');
@@ -50,11 +48,11 @@ export async function getSession() {
     return null;
   }
 
-  // Update last active time to show who is online
-  await prisma.session.update({
+  // Fire-and-forget: don't block navigation waiting for this write
+  prisma.session.update({
     where: { id: session.id },
     data: { lastActiveAt: new Date() }
-  });
+  }).catch(() => {});
 
   return session;
 }

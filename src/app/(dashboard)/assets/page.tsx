@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { ImageIcon, Download, UploadCloud, Video, FileText, File } from 'lucide-react';
 import { UploadAssetButton } from './UploadAssetButton';
 import { DeleteAssetButton } from './DeleteAssetButton';
 
-const prisma = new PrismaClient();
+
 export const dynamic = 'force-dynamic';
 
 const imageFormats = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'heic', 'image'];

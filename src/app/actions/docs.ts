@@ -1,11 +1,11 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { encryptData } from '@/lib/encryption';
 import { getSession } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
-const prisma = new PrismaClient();
+
 
 export async function addDocAction(title: string, rawContent: string) {
   const session = await getSession();

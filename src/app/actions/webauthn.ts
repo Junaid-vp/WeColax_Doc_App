@@ -3,10 +3,10 @@
 import { cookies, headers } from 'next/headers';
 import { generateRegistrationOptions, verifyRegistrationResponse } from '@simplewebauthn/server';
 import type { RegistrationResponseJSON } from '@simplewebauthn/types';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
-const prisma = new PrismaClient();
+
 const rpName = 'WeColax Vault';
 // rpID and origin are now dynamically extracted from headers in each action
 

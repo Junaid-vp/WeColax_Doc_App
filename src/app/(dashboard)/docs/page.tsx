@@ -1,11 +1,12 @@
-import { PrismaClient, ProjectDoc } from '@prisma/client';
+import { ProjectDoc } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { decryptData } from '@/lib/encryption';
 import { ShieldCheck, FileText, Lock } from 'lucide-react';
 import { CopyButton } from './CopyButton';
 import { AddDocForm } from './AddDocForm';
 import { DeleteDocButton } from './DeleteDocButton';
 
-const prisma = new PrismaClient();
+
 export const dynamic = 'force-dynamic';
 
 export default async function DocsVaultPage() {

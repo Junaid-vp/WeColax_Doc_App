@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { Activity, ShieldCheck } from 'lucide-react';
 import Image from 'next/image';
 
-const prisma = new PrismaClient();
+
 
 export const dynamic = 'force-dynamic';
 
