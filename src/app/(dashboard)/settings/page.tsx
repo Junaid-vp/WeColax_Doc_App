@@ -12,23 +12,28 @@ export default async function SettingsPage() {
   const currentSession = await getSession();
   if (!currentSession) return null;
 
-  const user = await prisma.user.findUnique({
-    where: { id: currentSession.userId },
-    include: { authenticators: true }
-  });
+  const [user, activeSessions, recentAudits] = await Promise.all([
+    // Query 1: Get User details
+    prisma.user.findUnique({
+      where: { id: currentSession.userId },
+      include: { authenticators: true }
+    }),
+    
+    // Query 2: Get active sessions
+    prisma.session.findMany({
+      where: { userId: currentSession.userId },
+      orderBy: { lastActiveAt: 'desc' }
+    }),
+
+    // Query 3: Get audit logs
+    prisma.auditLog.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+      include: { user: true }
+    })
+  ]);
 
   const hasPasskeys = (user?.authenticators?.length ?? 0) > 0;
-
-  const activeSessions = await prisma.session.findMany({
-    where: { userId: currentSession.userId },
-    orderBy: { lastActiveAt: 'desc' }
-  });
-
-  const recentAudits = await prisma.auditLog.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 10,
-    include: { user: true }
-  });
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
