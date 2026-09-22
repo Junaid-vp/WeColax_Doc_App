@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  role          String    @default("ADMIN") // CEO, CTO, COO
+  lastLoginAt   DateTime?
+  lastActiveAt  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      Session[]
+  auditLogs     AuditLog[]
+  authenticators Authenticator[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  deviceInfo   String?  // e.g., "Mobile Safari" or "Desktop Chrome"
+  ipAddress    String?
+  lastActiveAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BrandAsset {
+  id              String   @id @default(cuid())
+  title           String
+  cloudStorageUrl String
+  fileType        String?
+  sizeBytes       Int?
+  uploadedBy      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Influencer {
+  id            String   @id @default(cuid())
+  name          String
+  details       String?
+  videoLinks    String[] // Array of URLs
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ProjectDoc {
+  id               String   @id @default(cuid())
+  title            String   @unique
+  encryptedContent String   @db.Text
+  iv               String   // Initialization vector for AES decryption
+  updatedBy        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // e.g., "VIEW_ENV", "LOGIN", "FORCE_LOGOUT"
+  userId    String?
+  details   String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  email      String
+  token      String
+  expires    DateTime
+  
+  @@unique([email, token])
+}
+
+model Authenticator {
+  id                   String  @id @default(cuid())
+  credentialID         String  @unique
+  credentialPublicKey  Bytes
+  counter              BigInt
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+  userId               String
+  createdAt            DateTime @default(now())
+
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
