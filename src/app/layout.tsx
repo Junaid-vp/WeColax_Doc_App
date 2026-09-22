@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "WeColax Executive Vault",
   description: "Secure internal vault and configuration manager for WeColax.",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: '/icon.png',
+  },
   robots: {
     index: false,
     follow: false,
