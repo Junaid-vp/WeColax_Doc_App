@@ -99,3 +99,21 @@ export async function hasPasskeysAction(email: string) {
     return false;
   }
 }
+
+export async function verifyTurnstileAction(token: string) {
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${process.env.TURNSTILE_SECRET_KEY}&response=${token}`,
+    });
+
+    const data = await res.json();
+    return { success: data.success, error: data['error-codes']?.[0] || 'Turnstile verification failed' };
+  } catch (error) {
+    console.error('Turnstile Error:', error);
+    return { success: false, error: 'Internal error verifying captcha' };
+  }
+}

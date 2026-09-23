@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Lock, ChevronRight, KeyRound, Loader2, User, Mail, Fingerprint } from 'lucide-react';
-import { verifyPasswordAction, verifyOtpAction, hasPasskeysAction } from '@/app/actions/auth';
+import { verifyPasswordAction, verifyOtpAction, hasPasskeysAction, verifyTurnstileAction } from '@/app/actions/auth';
 import { getAuthenticationOptionsAction, verifyAuthenticationAction } from '@/app/actions/webauthn';
 import { startAuthentication } from '@simplewebauthn/browser';
 import { useRouter } from 'next/navigation';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export default function LoginPage() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -18,6 +19,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [hasPasskeys, setHasPasskeys] = useState(false);
   const [showPasswordFallback, setShowPasswordFallback] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const router = useRouter();
 
   const getEmailForRole = (r: string | null) => {
@@ -33,6 +35,19 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     
+    if (!turnstileToken) {
+      setError('Please complete the security check.');
+      return;
+    }
+
+    setLoading(true);
+    const turnstileRes = await verifyTurnstileAction(turnstileToken);
+    if (!turnstileRes.success) {
+      setError('Security check failed. Please refresh and try again.');
+      setLoading(false);
+      return;
+    }
+
     const prefix = emailInput.substring(0, 3).toUpperCase();
     if (prefix === 'CEO' || prefix === 'CTO' || prefix === 'COO') {
       const email = getEmailForRole(prefix);
@@ -177,8 +192,16 @@ export default function LoginPage() {
                   </motion.p>
                 )}
 
+                <div className="flex justify-center my-4 min-h-[65px]">
+                  <Turnstile 
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
+                    onSuccess={(token) => setTurnstileToken(token)}
+                  />
+                </div>
+
                 <button
                   type="submit"
+                  disabled={loading || !turnstileToken}
                   className="w-full bg-purple-600 text-white font-semibold rounded-xl py-3 flex items-center justify-center gap-2 hover:bg-purple-700 transition-all active:scale-[0.98] shadow-md shadow-purple-600/20"
                 >
                   Continue <ChevronRight className="w-4 h-4" />

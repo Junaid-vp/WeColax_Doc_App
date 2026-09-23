@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { ImageIcon, Download, UploadCloud, Video, FileText, File } from 'lucide-react';
+import { ImageIcon, Download, UploadCloud, Video, FileText, File, Eye } from 'lucide-react';
 import { UploadAssetButton } from './UploadAssetButton';
 import { DeleteAssetButton } from './DeleteAssetButton';
 
@@ -41,6 +41,11 @@ export default async function AssetsPage() {
           const sizeMb = asset.sizeBytes ? (asset.sizeBytes / (1024 * 1024)).toFixed(2) : '0';
           const lowerType = (asset.fileType || '').toLowerCase();
           const isImage = imageFormats.some(ext => lowerType.includes(ext));
+          const isPdf = lowerType.includes('pdf');
+          
+          // Cloudinary restricts inline PDF viewing by default (returns 401), causing "Failed to load PDF" in browsers.
+          // By changing the extension to .jpg, Cloudinary serves a high-quality image of the first page.
+          const viewUrl = isPdf ? asset.cloudStorageUrl.replace(/\.pdf$/i, '.jpg') : asset.cloudStorageUrl;
           
           return (
             <div key={asset.id} className="bg-white border border-slate-200 rounded-2xl p-4 group relative shadow-sm hover:shadow-md transition-shadow">
@@ -54,12 +59,21 @@ export default async function AssetsPage() {
                   getFileIcon(asset.fileType)
                 )}
                 
-                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
                   <a 
-                    href={asset.cloudStorageUrl} 
+                    href={viewUrl} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-lg hover:scale-105 transition-transform shadow-md"
+                    className="flex items-center gap-2 px-3 py-2 bg-white text-slate-900 font-semibold rounded-lg hover:scale-105 transition-transform shadow-md"
+                  >
+                    <Eye className="w-4 h-4" /> View
+                  </a>
+                  <a 
+                    href={asset.cloudStorageUrl.replace('/upload/', '/upload/fl_attachment/')} 
+                    download
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:scale-105 transition-transform shadow-md"
                   >
                     <Download className="w-4 h-4" /> Download
                   </a>
